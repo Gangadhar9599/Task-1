@@ -1,0 +1,13 @@
+-- Update Daisy's department and salary
+UPDATE Employees 
+SET dept = 'Finance', salary = 37000 
+WHERE empId = 4;
+
+-- Update NULL dept to 'General'
+UPDATE Employees 
+SET dept = 'General' 
+WHERE dept IS NULL;
+
+-- Delete employee with salary less than 32000
+DELETE FROM Employees 
+WHERE salary < 32000;
