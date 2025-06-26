@@ -1,0 +1,45 @@
+CREATE TABLE Employees (
+    emp_id INT,
+    name VARCHAR(50),
+    department VARCHAR(30),
+    salary INT,
+    hire_date DATE
+);
+
+INSERT INTO Employees (emp_id, name, department, salary, hire_date) VALUES
+(1, 'Alice', 'HR', 50000, '2020-05-01'),
+(2, 'Bob', 'IT', 60000, '2019-07-15'),
+(3, 'Charlie', 'Sales', 55000, '2021-02-20'),
+(4, 'David', 'IT', 70000, '2018-11-30'),
+(5, 'Eve', 'HR', 52000, '2022-01-10');
+
+-- 1. Select all columns
+SELECT * FROM Employees;
+
+-- 2. Select specific columns
+SELECT name, department FROM Employees;
+
+-- 3. WHERE with AND
+SELECT * FROM Employees
+WHERE department = 'IT' AND salary > 60000;
+
+-- 4. WHERE with OR
+SELECT * FROM Employees
+WHERE department = 'HR' OR department = 'Sales';
+
+-- 5. LIKE
+SELECT * FROM Employees
+WHERE name LIKE 'A%';  -- Names starting with 'A'
+
+-- 6. BETWEEN
+SELECT * FROM Employees
+WHERE salary BETWEEN 50000 AND 60000;
+
+-- 7. ORDER BY
+SELECT * FROM Employees
+ORDER BY salary DESC;
+
+-- 8. LIMIT
+SELECT * FROM Employees
+ORDER BY hire_date ASC
+LIMIT 3;
