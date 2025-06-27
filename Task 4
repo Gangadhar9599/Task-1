@@ -1,0 +1,29 @@
+-- Sample Table Structure (if not already present)
+CREATE TABLE sales (
+    id INTEGER PRIMARY KEY,
+    product TEXT,
+    category TEXT,
+    quantity INTEGER,
+    price REAL
+);
+
+-- 1. Total quantity sold by category
+SELECT category, SUM(quantity) AS total_quantity
+FROM sales
+GROUP BY category;
+
+-- 2. Count of products in each category
+SELECT category, COUNT(*) AS product_count
+FROM sales
+GROUP BY category;
+
+-- 3. Average price of each product
+SELECT product, AVG(price) AS avg_price
+FROM sales
+GROUP BY product;
+
+-- 4. Categories with total quantity sold greater than 100
+SELECT category, SUM(quantity) AS total_quantity
+FROM sales
+GROUP BY category
+HAVING SUM(quantity) > 100;
