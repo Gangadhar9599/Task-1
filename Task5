@@ -1,0 +1,57 @@
+-- Drop existing tables if any
+DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS Customers;
+
+-- Create Customers table
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    City VARCHAR(50)
+);
+
+-- Create Orders table
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    Product VARCHAR(50),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+-- Insert sample data into Customers
+INSERT INTO Customers (CustomerID, Name, City) VALUES
+(1, 'Alice', 'Mumbai'),
+(2, 'Bob', 'Delhi'),
+(3, 'Charlie', 'Pune');
+
+-- Insert sample data into Orders
+INSERT INTO Orders (OrderID, CustomerID, Product) VALUES
+(101, 1, 'Laptop'),
+(102, 2, 'Phone'),
+(103, 2, 'Tablet'),
+(104, 4, 'Camera'); -- This CustomerID does not exist in Customers
+
+-- 1. INNER JOIN
+SELECT 'INNER JOIN' AS Join_Type, Customers.Name, Orders.Product
+FROM Customers
+INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+
+-- 2. LEFT JOIN
+SELECT 'LEFT JOIN' AS Join_Type, Customers.Name, Orders.Product
+FROM Customers
+LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+
+-- 3. RIGHT JOIN (MySQL only)
+SELECT 'RIGHT JOIN' AS Join_Type, Customers.Name, Orders.Product
+FROM Customers
+RIGHT JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+
+-- 4. FULL JOIN (Simulated with UNION, for compatibility)
+SELECT 'FULL JOIN' AS Join_Type, Customers.Name, Orders.Product
+FROM Customers
+LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+
+UNION
+
+SELECT 'FULL JOIN' AS Join_Type, Customers.Name, Orders.Product
+FROM Orders
+LEFT JOIN Customers ON Customers.CustomerID = Orders.CustomerID;
