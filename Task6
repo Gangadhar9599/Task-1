@@ -1,0 +1,76 @@
+-- Step 1: Create the employees table
+CREATE TABLE employees (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    department TEXT,
+    salary INTEGER
+);
+
+-- Step 2: Insert sample data
+INSERT INTO employees (id, name, department, salary) VALUES
+(1, 'Alice', 'HR', 50000),
+(2, 'Bob', 'Finance', 60000),
+(3, 'Charlie', 'HR', 55000),
+(4, 'David', 'IT', 70000),
+(5, 'Eva', 'Finance', 62000),
+(6, 'Frank', 'IT', 72000),
+(7, 'Grace', 'Marketing', 58000);
+
+-- Task 6.1: Subquery in SELECT (Scalar Subquery)
+-- Show each employee with the maximum salary in the company
+SELECT
+    name,
+    salary,
+    (SELECT MAX(salary) FROM employees) AS max_salary
+FROM employees;
+
+-- Task 6.2: Subquery in WHERE with IN
+-- Get employees from departments where at least one employee earns more than 60000
+SELECT *
+FROM employees
+WHERE department IN (
+    SELECT department FROM employees WHERE salary > 60000
+);
+
+-- Task 6.3: Subquery in WHERE with =
+-- Get employees who work in the department of the highest-paid employee
+SELECT *
+FROM employees
+WHERE department = (
+    SELECT department
+    FROM employees
+    ORDER BY salary DESC
+    LIMIT 1
+);
+
+-- Task 6.4: Subquery in WHERE with EXISTS (Correlated)
+-- Get employees who are the highest earners in their department
+SELECT e1.*
+FROM employees e1
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM employees e2
+    WHERE e2.department = e1.department AND e2.salary > e1.salary
+);
+
+-- Task 6.5: Subquery in FROM (Derived Table)
+-- Get employees from departments whose average salary is more than 60000
+SELECT e.*
+FROM employees e
+JOIN (
+    SELECT department, AVG(salary) AS avg_salary
+    FROM employees
+    GROUP BY department
+    HAVING AVG(salary) > 60000
+) AS dept_avg
+ON e.department = dept_avg.department;
+
+-- Task 6.6: Correlated Subquery
+-- Get employees whose salary is above the average salary of their department
+SELECT e1.*
+FROM employees e1
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees e2
+    WHERE e2.department = e1.department
+);
