@@ -1,0 +1,37 @@
+-- Step 1: Create the sample table
+CREATE TABLE employees (
+    emp_id INT,
+    name TEXT,
+    department TEXT,
+    salary INT
+);
+
+-- Step 2: Insert sample data
+INSERT INTO employees VALUES
+(1, 'Alice', 'IT', 80000),
+(2, 'Bob', 'HR', 60000),
+(3, 'Charlie', 'IT', 75000),
+(4, 'Diana', 'Finance', 90000),
+(5, 'Eve', 'HR', 62000);
+
+-- Step 3: Create View 1 - Employees with salary > 70000
+CREATE VIEW high_salary_employees AS
+SELECT emp_id, name, department, salary
+FROM employees
+WHERE salary > 70000;
+
+-- Step 4: Create View 2 - Average salary by department
+CREATE VIEW avg_salary_by_department AS
+SELECT department, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department;
+
+-- Step 5: Create View 3 - Public view without salary (for abstraction/security)
+CREATE VIEW employee_public_view AS
+SELECT emp_id, name, department
+FROM employees;
+
+-- Step 6: Test the views
+SELECT * FROM high_salary_employees;
+SELECT * FROM avg_salary_by_department;
+SELECT * FROM employee_public_view;
